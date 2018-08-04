@@ -1,0 +1,221 @@
+﻿<Window x:Class="Jarser.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        mc:Ignorable="d"
+        Title="Jarser" Height="950" Width="1800" WindowStartupLocation="CenterScreen" WindowState="Maximized" Background="White">
+
+    <Grid Style="{StaticResource GridStyles}">
+        <TabControl TabStripPlacement="Left" HorizontalContentAlignment="Left" FontFamily="Calibri" BorderBrush="#FFCDCDCD" Padding="0,2,2,2" BorderThickness="1,0,0,0">
+
+            <TabItem  Template="{StaticResource TabItemButton}" FontSize="16" >
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="img/browser.png" Width="20"></Image>
+                        <TextBlock Text="Browser" Margin="10,0,0,0"/>
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid Style="{StaticResource TabArea}" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <WrapPanel Orientation="Horizontal">
+                            <StackPanel  Orientation="Horizontal" Height="40">
+                                <Button Template="{StaticResource ButtonCommon}" Command="{Binding NavigateBack}" CommandParameter="{Binding ElementName=MainBrowser}" Margin="10,5,0,5" Content="{StaticResource LeftArrowIcon}"></Button>
+                                <Button Template="{StaticResource ButtonCommon}" Command="{Binding NavigateForward}" CommandParameter="{Binding ElementName=MainBrowser}" Margin="0,5,10,5" Content="{StaticResource RightArrowIcon}"></Button>
+                            </StackPanel>
+                            <StackPanel  Orientation="Horizontal" Height="40">
+                                <Label  VerticalAlignment="Center">Link to profile:</Label>
+                                <TextBox Template="{StaticResource InputTextBox}" VerticalAlignment="Center" Padding="5"  Margin="5" Width="300" Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></TextBox>
+                            </StackPanel>
+                            <StackPanel  Orientation="Horizontal" Height="40">
+                                <Button  Template="{StaticResource ButtonCommon}" Content="{StaticResource LinkIcon}" Command="{Binding Navigate}" CommandParameter="{Binding ElementName=MainBrowser}" Margin="5,5,0,5"></Button>
+                                <Button Template="{StaticResource ButtonCommon}" Content="{StaticResource RefreshIcon}" Command="{Binding RefreshPage}" CommandParameter="{Binding ElementName=MainBrowser}" Margin="0,5,0,5"></Button>
+                            </StackPanel>
+                            <StackPanel  Orientation="Horizontal" Height="40">
+                                <Button Template="{StaticResource ButtonCommon}" Content="Hellp scroll" Command="{Binding InsertScript}" CommandParameter="{Binding ElementName=MainBrowser}" Margin="0,5,0,5" Foreground="White"></Button>
+                                <Button Template="{StaticResource ButtonCommon}" Command="{Binding Parse}" CommandParameter="{Binding ElementName=MainBrowser}" Margin="0,5,0,5" >
+                                    <StackPanel Orientation="Horizontal" >
+                                        <TextBlock Height="22"  Text="Run parser" Margin="0,0,5,0" Foreground="White"></TextBlock>
+                                        <Image Source="img/play-button.png"></Image>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                            <StackPanel  Orientation="Horizontal" Height="40">
+                                <ProgressBar Template="{StaticResource ProgressBarTemplate}" Value="{Binding ProgressParse}" Width="400"></ProgressBar>
+                                <Button Template="{StaticResource ButtonCommon}" Content="Stop Parse" Command="{Binding CloseParsing}" CommandParameter="{Binding ElementName=ParseDescription}" Margin="3" Foreground="White"></Button>
+                                <TextBlock  Text="{Binding ProgressDescription}" Margin="5" VerticalAlignment="Center" IsManipulationEnabled="True" TextWrapping="Wrap"></TextBlock>
+                            </StackPanel>
+                        </WrapPanel>
+                    </Grid>
+
+                    <WebBrowser Grid.Row="1" x:Name="MainBrowser" Source="https://www.instagram.com/"/>
+                </Grid>
+            </TabItem>
+            <TabItem Template="{StaticResource TabItemButton}" FontSize="16">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="img/id-card.png" Width="23"></Image>
+                        <TextBlock Text="Select by nickname" Margin="10,0,0,0"></TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <WrapPanel Grid.Row="0">
+                        <Button Template="{StaticResource ButtonCommon}" Command="{Binding ParseByNickNames}" CommandParameter="{Binding ElementName=NickNamesBox}" Content="Run parser" Foreground="White"></Button>
+                        <ProgressBar Template="{StaticResource ProgressBarTemplate}" Margin="-4" Value="{Binding ProgressParseByNicks}" Width="300"></ProgressBar>
+                        <Button Template="{StaticResource ButtonCommon}" Command="{Binding CloseParsingByNicks}" Content="Stop" Foreground="White"></Button>
+                        <TextBlock Text="{Binding ProgressDescriptionByNicks}"></TextBlock>
+                    </WrapPanel>
+                    <TextBox Grid.Row="1" x:Name="NickNamesBox" AcceptsReturn="True"></TextBox>
+                </Grid>
+                
+
+            </TabItem>
+
+            <TabItem  Template="{StaticResource TabItemButton}" FontSize="16">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="img/list.png" Width="17"></Image>
+                        <TextBlock Text="Results" Margin="10,0,0,0"></TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0" Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" Height="40">
+                                <Button Template="{StaticResource ButtonCommon}" Content="{StaticResource SaveFileIcon}" Command="{Binding SaveFile}" Margin="2"></Button>
+                                <Button Template="{StaticResource ButtonCommon}" Content="{StaticResource ClearResultsIcon}" Command="{Binding ClearResult}" Margin="2"></Button>
+                                <Button Template="{StaticResource ButtonCommon}"  Command="{Binding SelectedUsersWithPhoneNumber}" CommandParameter="{x:Null}" Margin="2">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Foreground="White" Text="Select only with phone number"></TextBlock>
+                                        <Image Source="img/filter-filled-tool-symbol.png" Width="20"></Image>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
+                        <WrapPanel Grid.Row="1" Orientation="Horizontal" Height="Auto" Margin="5">
+                            <StackPanel Orientation="Horizontal">
+                                <Label VerticalAlignment="Center" Margin="5,0,5,0" Content="Id:"></Label>
+                                <CheckBox Template="{StaticResource ChechBoxCommon}" IsChecked="{Binding Id}"></CheckBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label VerticalAlignment="Center" Margin="5,0,5,0" Content="Nick name:"></Label>
+                                <CheckBox Template="{StaticResource ChechBoxCommon}" IsChecked="{Binding UserName}"></CheckBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label VerticalAlignment="Center" Margin="5,0,5,0" Content="Followers:"></Label>
+                                <CheckBox Template="{StaticResource ChechBoxCommon}" IsChecked="{Binding Followers}"></CheckBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label VerticalAlignment="Center" Margin="5,0,5,0" Content="Following:"></Label>
+                                <CheckBox Template="{StaticResource ChechBoxCommon}" IsChecked="{Binding Following}"></CheckBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label VerticalAlignment="Center" Margin="5,0,5,0" Content="Biography:"></Label>
+                                <CheckBox Template="{StaticResource ChechBoxCommon}" IsChecked="{Binding Biography}"></CheckBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label VerticalAlignment="Center" Margin="5,0,5,0" Content="Full name:"></Label>
+                                <CheckBox Template="{StaticResource ChechBoxCommon}" IsChecked="{Binding FullName}"></CheckBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label VerticalAlignment="Center" Margin="5,0,5,0" Content="Is private:"></Label>
+                                <CheckBox Template="{StaticResource ChechBoxCommon}" IsChecked="{Binding IsPrivate}"></CheckBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label VerticalAlignment="Center" Margin="5,0,5,0" Content="Is verified:"></Label>
+                                <CheckBox Template="{StaticResource ChechBoxCommon}" IsChecked="{Binding IsVerified}"></CheckBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label VerticalAlignment="Center" Margin="5,0,5,0" Content="Link to profile image:"></Label>
+                                <CheckBox Template="{StaticResource ChechBoxCommon}" IsChecked="{Binding ProfilePictureUrl}"></CheckBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label VerticalAlignment="Center" Margin="5,0,5,0" Content="Link to profile HD image:"></Label>
+                                <CheckBox Template="{StaticResource ChechBoxCommon}" IsChecked="{Binding ProfilePictureHdUrl}"></CheckBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label VerticalAlignment="Center" Margin="5,0,5,0" Content="External URL:"></Label>
+                                <CheckBox Template="{StaticResource ChechBoxCommon}" IsChecked="{Binding ExternalUrl}"></CheckBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label VerticalAlignment="Center" Margin="5,0,5,0" Content="External URL shimmed:"></Label>
+                                <CheckBox Template="{StaticResource ChechBoxCommon}" IsChecked="{Binding ExternalUrlShimmed}"></CheckBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label VerticalAlignment="Center" Margin="5,0,5,0" Content="Country is blocked:"></Label>
+                                <CheckBox Template="{StaticResource ChechBoxCommon}" IsChecked="{Binding CountryBlock}"></CheckBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label VerticalAlignment="Center" Margin="5,0,5,0" Content="Phone number:"></Label>
+                                <CheckBox Template="{StaticResource ChechBoxCommon}" IsChecked="{Binding PhoneNumber}"></CheckBox>
+                            </StackPanel>
+                        </WrapPanel>
+                    </Grid>
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding ParsedUsers}" RowBackground="White" AutoGenerateColumns="False" HorizontalGridLinesBrush="#ccc" VerticalGridLinesBrush="#ccc" BorderBrush="#00E6E6E6" AlternatingRowBackground="#B13896EF" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="0,2,0,-2">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Id" Binding="{Binding Path=Id}" ></DataGridTextColumn>
+                            <DataGridTextColumn Header="Nick name" Binding="{Binding Path=UserName}" ></DataGridTextColumn>
+                            <DataGridTextColumn Header="Followers" Binding="{Binding Path=Followers}" ></DataGridTextColumn>
+                            <DataGridTextColumn Header="Following" Binding="{Binding Path=Following}" Width="200"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Phone number:" Binding="{Binding Path=PhoneNumber}" ></DataGridTextColumn>
+                            <DataGridTextColumn Header="Biography" Binding="{Binding Path=Biography}" Width="200" ></DataGridTextColumn>
+                            <DataGridTextColumn Header="Full name" Binding="{Binding Path=FullName}" ></DataGridTextColumn>
+                            <DataGridTextColumn Header="Is private" Binding="{Binding Path=IsPrivate}" ></DataGridTextColumn>
+                            <DataGridTextColumn Header="Is verified" Binding="{Binding Path=IsVerified}" ></DataGridTextColumn>
+                            <DataGridHyperlinkColumn Header="Link to profile image" Binding="{Binding Path=ProfilePictureUrl}" Width="150"></DataGridHyperlinkColumn>
+                            <DataGridHyperlinkColumn Header="Link to profile HD image" Binding="{Binding Path=ProfilePictureHdUrl}" Width="150"></DataGridHyperlinkColumn>
+                            <DataGridHyperlinkColumn Header="External URL" Binding="{Binding Path=ExternalUrl}" Width="150"></DataGridHyperlinkColumn>
+                            <DataGridHyperlinkColumn Header="External URL shimmed" Binding="{Binding Path=ExternalUrlShimmed}" Width="150"></DataGridHyperlinkColumn>
+                            <DataGridTextColumn Header="Country is blocked" Binding="{Binding Path=CountryBlock}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Is blocked by view" Binding="{Binding Path=BlockedByView}" ></DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Template="{StaticResource TabItemButton}" FontSize="16">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="img/settings.png" Width="20"></Image>
+                        <TextBlock Text="Settings" Margin="10,0,0,0"></TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+                <StackPanel Orientation="Vertical" Margin="10">
+                    <TextBlock Text="Settings" Margin="5" FontSize="20" FontWeight="Bold"></TextBlock>
+                    <Label Content="Delay request"></Label>
+                    <TextBlock Style="{StaticResource HelpExplanation}" Text="This parameter affects the parsing speed. A high value of this parameter makes the parsing process slow. So you will not look like a bot for an instagram. Otherwise, you can receive empty responses from the instagram."></TextBlock>
+                    <ComboBox Width="200" HorizontalAlignment="Left" Margin="5" ItemsSource="{Binding Delays}" SelectedValue="{Binding DelayValue}">
+                    </ComboBox>
+                </StackPanel>
+            </TabItem>
+            <TabItem Template="{StaticResource TabItemButton}" FontSize="16">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="img/info.png" Width="20"></Image>
+                        <TextBlock Text="Documentation" Margin="10,0,0,0"></TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+                <WebBrowser x:Name="DocumentationBrowser"></WebBrowser>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

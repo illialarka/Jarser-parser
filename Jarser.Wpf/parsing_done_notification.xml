@@ -1,0 +1,8 @@
+<toast>
+    <visual>
+        <binding template="ToastText02">
+            <text id="1">headlineText</text>
+            <text id="2">bodyText</text>
+        </binding>  
+    </visual>
+</toast>
