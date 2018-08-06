@@ -12,5 +12,3 @@ If you want to see information about usage, see [Wiki](https://github.com/Larkai
 If you want to get product, see [Releases](https://github.com/Larkailya/jarser-parser/releases).
 
 With love, Jarser!
-
-![Jarser logotype](https://github.com/Larkailya/jarser-parser/blob/master/Jarser.Wpf/documentation/documentation_files/image010.png)
